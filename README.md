@@ -1,6 +1,6 @@
 <div align="center">
 
-# ✦ dhruxy-_- dotfiles ✦
+# ✦ dotfiles ✦
 
 **A minimal, dark Hyprland setup powered by the Noctalia shell**
 
