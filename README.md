@@ -328,6 +328,21 @@ The animations are tuned with custom bezier curves for a premium, snappy feel:
 
 ---
 
+## 🌄 Wallpapers
+
+This repo ships with **121 curated wallpapers** spanning a wide range of styles:
+
+> Anime · Cyberpunk · Nature · Abstract · Berserk · Sci-Fi · Japan · Paintings · Monochrome · and more
+
+Wallpapers are automatically installed to `~/media/pictures/wallpapers/` by the install script.
+
+| Keybind | Action |
+|---------|--------|
+| `Super + Y` | Cycle to next wallpaper |
+| `Super + Shift + Y` | Toggle automatic wallpaper rotation |
+
+---
+
 ## 🚀 Installation
 
 > **Requires Arch Linux (or an Arch-based distro)**
@@ -345,7 +360,18 @@ The install script will:
 - Check for and install all required dependencies via `pacman` / `yay`
 - Copy all configs to `~/.config/`
 - Copy scripts to `~/.local/bin/`
-- Set up Hyprland to launch on login
+- Copy **121 wallpapers** to `~/media/pictures/wallpapers/`
+- Set a random wallpaper immediately (if `swww` is running)
+
+### Script Flags
+
+```bash
+./install.sh --all              # Full install (default)
+./install.sh --configs-only     # Only copy configs & scripts
+./install.sh --pkgs-only        # Only install packages
+./install.sh --wallpapers-only  # Only install wallpapers
+./install.sh --verify           # Check all required binaries are installed
+```
 
 ### Manual
 
@@ -356,6 +382,10 @@ git clone https://github.com/Dhruxy077/dotfiles.git ~/dotfiles
 # Copy configs
 cp -r dotfiles/.config/* ~/.config/
 cp -r dotfiles/.local/* ~/.local/
+
+# Copy wallpapers
+mkdir -p ~/media/pictures/wallpapers
+cp dotfiles/wallpapers/* ~/media/pictures/wallpapers/
 
 # Make scripts executable
 chmod +x ~/.local/bin/**

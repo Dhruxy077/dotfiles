@@ -193,6 +193,7 @@ install_arch_packages() {
     fzf
     jq
     ananicy-cpp           # Process priority daemon (referenced in environ.conf)
+    python-terminaltexteffects  # AUR: 'tte' — required by the screensaver
   )
 
   # ── Media ─────────────────────────────────────────────────────────────────
@@ -281,6 +282,7 @@ install_debian_packages() {
   warn "  • wl-clip-persist – https://github.com/Linus789/wl-clip-persist"
   warn "  • Bibata cursor   – https://github.com/ful1e5/Bibata_Cursor"
   warn "  • starship        – curl -sS https://starship.rs/install.sh | sh"
+  warn "  • tte (screensaver) – pip install terminal-text-effects"
 }
 
 _install_yay() {
@@ -379,6 +381,88 @@ copy_local_scripts() {
     find "$HOME/.local/bin" -type f ! -name "*.*" -exec bash -c \
       '[[ "$(head -c 2 "$1")" == "#!" ]] && chmod +x "$1"' _ {} \;
     success "~/.local/bin  (scripts marked executable)"
+  fi
+}
+
+# ─── Copy wallpapers ──────────────────────────────────────────────────────────
+copy_wallpapers() {
+  step "Installing wallpapers  →  ~/media/pictures/wallpapers"
+
+  local WALL_SRC="$DOTFILES_DIR/wallpapers"
+  local WALL_DST="$HOME/media/pictures/wallpapers"
+
+  if [[ ! -d "$WALL_SRC" ]]; then
+    warn "No 'wallpapers/' folder found in dotfiles — skipping."
+    return
+  fi
+
+  local total; total=$(find "$WALL_SRC" -maxdepth 1 -type f | wc -l)
+  info "Found ${BOLD}${total}${RESET} wallpapers to install…"
+
+  mkdir -p "$WALL_DST"
+
+  # Rsync if available (fast, skips unchanged files); fall back to cp
+  if command -v rsync &>/dev/null; then
+    rsync -a --info=progress2 "$WALL_SRC/" "$WALL_DST/"
+  else
+    cp -r "$WALL_SRC/." "$WALL_DST/"
+  fi
+
+  success "Wallpapers installed  →  ${WALL_DST}"
+  dim "  ${total} images copied"
+
+  # ── Set a random wallpaper right now if swww-daemon is running ─────────────
+  _set_initial_wallpaper "$WALL_DST"
+}
+
+_set_initial_wallpaper() {
+  local wall_dir="$1"
+
+  if ! command -v swww &>/dev/null; then
+    dim "  swww not found — wallpaper will be set on next Hyprland launch"
+    return
+  fi
+
+  # Collect all supported image files (excluding .gif for static default)
+  local -a images
+  mapfile -t images < <(
+    find "$wall_dir" -maxdepth 1 -type f \
+      \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' \
+         -o -iname '*.webp' -o -iname '*.gif' \) \
+      | shuf
+  )
+
+  if [[ ${#images[@]} -eq 0 ]]; then
+    warn "No images found in ${wall_dir}"
+    return
+  fi
+
+  # Prefer a non-gif for the first-boot wallpaper
+  local chosen=""
+  for img in "${images[@]}"; do
+    if [[ "${img,,}" != *.gif ]]; then
+      chosen="$img"
+      break
+    fi
+  done
+  [[ -z "$chosen" ]] && chosen="${images[0]}"
+
+  # Start the daemon if it's not already running
+  if ! swww query &>/dev/null; then
+    info "Starting swww-daemon for initial wallpaper…"
+    swww-daemon --no-cache &
+    sleep 1
+  fi
+
+  if swww query &>/dev/null; then
+    swww img "$chosen" \
+      --transition-type grow \
+      --transition-pos center \
+      --transition-duration 1 \
+      2>/dev/null && success "Wallpaper set: $(basename "$chosen")" \
+                  || warn "swww img failed — wallpaper will be set on next login"
+  else
+    dim "  swww-daemon not running — wallpaper will be set on next Hyprland launch"
   fi
 }
 
@@ -490,6 +574,7 @@ verify_installation() {
     fastfetch
     nvim
     thunar
+    tte             # terminal-text-effects — required by screensaver
   )
 
   local OPTIONAL_BINS=(
@@ -560,7 +645,8 @@ print_summary() {
   echo -e "  ${DIM}1. Log out and select Hyprland from your display manager${RESET}"
   echo -e "  ${DIM}2. Or run: ${CYAN}Hyprland${RESET}"
   echo -e "  ${DIM}3. Monitor layout is in ~/.config/hypr/hyprland.conf — adjust if needed${RESET}"
-  echo -e "  ${DIM}4. Wallpapers: add images to ~/media/pictures and use ${CYAN}SUPER+Y${RESET}${DIM} to cycle${RESET}"
+  echo -e "  ${DIM}4. Wallpapers installed to: ${CYAN}~/media/pictures/wallpapers/${RESET}"
+  echo -e "  ${DIM}   Use ${CYAN}SUPER+Y${RESET}${DIM} to cycle wallpapers, ${CYAN}SUPER+SHIFT+Y${RESET}${DIM} to toggle auto-rotation${RESET}"
   echo
   echo -e "  ${DIM}Keybind cheatsheet: ${CYAN}SUPER+/${RESET}"
   echo
@@ -571,11 +657,12 @@ usage() {
   echo -e "Usage: ${0} [OPTIONS]"
   echo
   echo -e "Options:"
-  echo -e "  ${BOLD}--all${RESET}          Full install (packages + configs + scripts) [default]"
-  echo -e "  ${BOLD}--configs-only${RESET} Only copy config files (skip package install)"
-  echo -e "  ${BOLD}--pkgs-only${RESET}    Only install packages (skip file copy)"
-  echo -e "  ${BOLD}--verify${RESET}       Check that all required binaries are present"
-  echo -e "  ${BOLD}-h, --help${RESET}     Show this help"
+  echo -e "  ${BOLD}--all${RESET}              Full install (packages + configs + scripts + wallpapers) [default]"
+  echo -e "  ${BOLD}--configs-only${RESET}     Only copy config files (skip package install)"
+  echo -e "  ${BOLD}--pkgs-only${RESET}        Only install packages (skip file copy)"
+  echo -e "  ${BOLD}--wallpapers-only${RESET}  Only install wallpapers to ~/media/pictures/wallpapers/"
+  echo -e "  ${BOLD}--verify${RESET}           Check that all required binaries are present"
+  echo -e "  ${BOLD}-h, --help${RESET}         Show this help"
   echo
 }
 
@@ -586,13 +673,14 @@ main() {
   local MODE="all"
 
   case "${1:-}" in
-    --all)           MODE="all" ;;
-    --configs-only)  MODE="configs" ;;
-    --pkgs-only)     MODE="pkgs" ;;
-    --verify)        MODE="verify" ;;
-    -h|--help)       usage; exit 0 ;;
-    "")              MODE="all" ;;
-    *)               error "Unknown option: $1"; usage; exit 1 ;;
+    --all)              MODE="all" ;;
+    --configs-only)     MODE="configs" ;;
+    --pkgs-only)        MODE="pkgs" ;;
+    --wallpapers-only)  MODE="wallpapers" ;;
+    --verify)           MODE="verify" ;;
+    -h|--help)          usage; exit 0 ;;
+    "")                 MODE="all" ;;
+    *)                  error "Unknown option: $1"; usage; exit 1 ;;
   esac
 
   detect_distro
@@ -602,6 +690,7 @@ main() {
       install_packages
       copy_configs
       copy_local_scripts
+      copy_wallpapers
       post_install
       verify_installation || true
       print_summary
@@ -609,11 +698,15 @@ main() {
     configs)
       copy_configs
       copy_local_scripts
+      copy_wallpapers
       post_install
       print_summary
       ;;
     pkgs)
       install_packages
+      ;;
+    wallpapers)
+      copy_wallpapers
       ;;
     verify)
       verify_installation
