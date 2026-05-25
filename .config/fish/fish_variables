@@ -1,0 +1,6 @@
+# This file contains fish universal variable definitions.
+# VERSION: 3.0
+SETUVAR --export XCURSOR_SIZE:16
+SETUVAR __fish_initialized:4300
+SETUVAR __fish_webconfig_theme_notification:set\x2dtheme\x2dv1\x2d\x235
+SETUVAR fish_user_paths:/home/dhruxy\x2d_\x2d/\x2elocal/bin

@@ -1,0 +1,757 @@
+{
+  "cheatsheetData": [
+    {
+      "title": "SESSION",
+      "binds": [
+        {
+          "keys": "Super + Ctrl + R",
+          "desc": "Reload Hyprland config",
+          "_verb": "exec",
+          "_param": "hyprctl reloadclear && $ipc toast send '{\"title\": \"Hyprland\", \"body\": \"Hyprland Configuration Reloaded\", \"icon\": \"reload\"}'",
+          "_mods": "Super+Ctrl",
+          "_mainKey": "R"
+        },
+        {
+          "keys": "Super + L",
+          "desc": "Lock screen",
+          "_verb": "exec",
+          "_param": "$ipc lockScreen lock",
+          "_mods": "Super",
+          "_mainKey": "L"
+        },
+        {
+          "keys": "Super + ESCAPE",
+          "desc": "Session menu",
+          "_verb": "exec",
+          "_param": "$ipc sessionMenu toggle",
+          "_mods": "Super",
+          "_mainKey": "ESCAPE"
+        }
+      ]
+    },
+    {
+      "title": "SHELL & MENUS",
+      "binds": [
+        {
+          "keys": "Super + SPACE",
+          "desc": "App launcher",
+          "_verb": "exec",
+          "_param": "$ipc launcher toggle",
+          "_mods": "Super",
+          "_mainKey": "SPACE"
+        },
+        {
+          "keys": "Super + Shift + SPACE",
+          "desc": "Toggle bar",
+          "_verb": "exec",
+          "_param": "$ipc bar toggle",
+          "_mods": "Super+Shift",
+          "_mainKey": "SPACE"
+        },
+        {
+          "keys": "Super + Shift + R",
+          "desc": "Control center",
+          "_verb": "exec",
+          "_param": "$ipc controlCenter toggle",
+          "_mods": "Super+Shift",
+          "_mainKey": "R"
+        },
+        {
+          "keys": "Super + R",
+          "desc": "Settings",
+          "_verb": "exec",
+          "_param": "$ipc settings toggle",
+          "_mods": "Super",
+          "_mainKey": "R"
+        },
+        {
+          "keys": "Super + V",
+          "desc": "Clipboard history",
+          "_verb": "exec",
+          "_param": "$ipc launcher clipboard",
+          "_mods": "Super",
+          "_mainKey": "V"
+        },
+        {
+          "keys": "Super + Shift + V",
+          "desc": "Emoji picker",
+          "_verb": "exec",
+          "_param": "$ipc launcher emoji",
+          "_mods": "Super+Shift",
+          "_mainKey": "V"
+        },
+        {
+          "keys": "Super + Shift + ESCAPE",
+          "desc": "System monitor",
+          "_verb": "exec",
+          "_param": "$ipc systemMonitor toggle",
+          "_mods": "Super+Shift",
+          "_mainKey": "ESCAPE"
+        },
+        {
+          "keys": "Super + SLASH",
+          "desc": "Keybind cheatsheet",
+          "_verb": "exec",
+          "_param": "$ipc plugin:keybind-cheatsheet toggle",
+          "_mods": "Super",
+          "_mainKey": "SLASH"
+        }
+      ]
+    },
+    {
+      "title": "WALLPAPER",
+      "binds": [
+        {
+          "keys": "Super + Y",
+          "desc": "Wallpaper corner",
+          "_verb": "exec",
+          "_param": "$ipc wallpaper toggle && $ipc toast send '{\"title\": \"Wallpaper Daemon\", \"body\": \"Wallpaper changed\", \"icon\": \"wallpaper reload\"}'",
+          "_mods": "Super",
+          "_mainKey": "Y"
+        },
+        {
+          "keys": "Super + Shift + Y",
+          "desc": "Toggle wallpaper automation",
+          "_verb": "exec",
+          "_param": "$ipc wallpaper toggleAutomation && $ipc toast send '{\"title\": \"Wallpaper Daemon\", \"body\": \"Wallpaper changed\", \"icon\": \"wallpaper reload\"}'",
+          "_mods": "Super+Shift",
+          "_mainKey": "Y"
+        }
+      ]
+    },
+    {
+      "title": "APPLICATIONS",
+      "binds": [
+        {
+          "keys": "Super + RETURN",
+          "desc": "Terminal",
+          "_verb": "exec",
+          "_param": "$TERMINAL",
+          "_mods": "Super",
+          "_mainKey": "RETURN"
+        },
+        {
+          "keys": "Super + E",
+          "desc": "File manager",
+          "_verb": "exec",
+          "_param": "$FILE_MANAGER",
+          "_mods": "Super",
+          "_mainKey": "E"
+        },
+        {
+          "keys": "Super + W",
+          "desc": "Browser",
+          "_verb": "exec",
+          "_param": "$BROWSER",
+          "_mods": "Super",
+          "_mainKey": "W"
+        },
+        {
+          "keys": "Super + M",
+          "desc": "Spotify",
+          "_verb": "exec",
+          "_param": "spotify-launcher",
+          "_mods": "Super",
+          "_mainKey": "M"
+        }
+      ]
+    },
+    {
+      "title": "WINDOW MANAGEMENT",
+      "binds": [
+        {
+          "keys": "Super + Q",
+          "desc": "Close window",
+          "_verb": "killactive",
+          "_param": "",
+          "_mods": "Super",
+          "_mainKey": "Q"
+        },
+        {
+          "keys": "Super + Shift + Q",
+          "desc": "Force kill window",
+          "_verb": "forcekillactive",
+          "_param": "",
+          "_mods": "Super+Shift",
+          "_mainKey": "Q"
+        },
+        {
+          "keys": "Super + F",
+          "desc": "Toggle maximize",
+          "_verb": "fullscreen",
+          "_param": "1",
+          "_mods": "Super",
+          "_mainKey": "F"
+        },
+        {
+          "keys": "Super + Shift + F",
+          "desc": "Toggle fullscreen",
+          "_verb": "fullscreen",
+          "_param": "",
+          "_mods": "Super+Shift",
+          "_mainKey": "F"
+        },
+        {
+          "keys": "Super + Alt + F",
+          "desc": "Toggle floating",
+          "_verb": "togglefloating",
+          "_param": "",
+          "_mods": "Super+Alt",
+          "_mainKey": "F"
+        },
+        {
+          "keys": "Super + U",
+          "desc": "Pin window",
+          "_verb": "pin",
+          "_param": "",
+          "_mods": "Super",
+          "_mainKey": "U"
+        },
+        {
+          "keys": "Super + P",
+          "desc": "Toggle pseudo-tiling",
+          "_verb": "pseudo",
+          "_param": "",
+          "_mods": "Super",
+          "_mainKey": "P"
+        },
+        {
+          "keys": "Super + Z",
+          "desc": "Shrink window",
+          "_verb": "resizeactive",
+          "_param": "-25% -20%",
+          "_mods": "Super",
+          "_mainKey": "Z"
+        },
+        {
+          "keys": "Super + C",
+          "desc": "Grow window",
+          "_verb": "resizeactive",
+          "_param": "25% 20%",
+          "_mods": "Super",
+          "_mainKey": "C"
+        }
+      ]
+    },
+    {
+      "title": "FOCUS",
+      "binds": [
+        {
+          "keys": "Super + LEFT",
+          "desc": "Focus left",
+          "_verb": "movefocus",
+          "_param": "l",
+          "_mods": "Super",
+          "_mainKey": "LEFT"
+        },
+        {
+          "keys": "Super + RIGHT",
+          "desc": "Focus right",
+          "_verb": "movefocus",
+          "_param": "r",
+          "_mods": "Super",
+          "_mainKey": "RIGHT"
+        },
+        {
+          "keys": "Super + UP",
+          "desc": "Focus up",
+          "_verb": "movefocus",
+          "_param": "u",
+          "_mods": "Super",
+          "_mainKey": "UP"
+        },
+        {
+          "keys": "Super + DOWN",
+          "desc": "Focus down",
+          "_verb": "movefocus",
+          "_param": "d",
+          "_mods": "Super",
+          "_mainKey": "DOWN"
+        }
+      ]
+    },
+    {
+      "title": "WINDOW SWAPPING",
+      "binds": [
+        {
+          "keys": "Super + Shift + LEFT",
+          "desc": "Swap left",
+          "_verb": "swapwindow",
+          "_param": "l",
+          "_mods": "Super+Shift",
+          "_mainKey": "LEFT"
+        },
+        {
+          "keys": "Super + Shift + RIGHT",
+          "desc": "Swap right",
+          "_verb": "swapwindow",
+          "_param": "r",
+          "_mods": "Super+Shift",
+          "_mainKey": "RIGHT"
+        },
+        {
+          "keys": "Super + Shift + UP",
+          "desc": "Swap up",
+          "_verb": "swapwindow",
+          "_param": "u",
+          "_mods": "Super+Shift",
+          "_mainKey": "UP"
+        },
+        {
+          "keys": "Super + Shift + DOWN",
+          "desc": "Swap down",
+          "_verb": "swapwindow",
+          "_param": "d",
+          "_mods": "Super+Shift",
+          "_mainKey": "DOWN"
+        }
+      ]
+    },
+    {
+      "title": "GROUPS",
+      "binds": [
+        {
+          "keys": "Super + O",
+          "desc": "Toggle group",
+          "_verb": "togglegroup",
+          "_param": "",
+          "_mods": "Super",
+          "_mainKey": "O"
+        },
+        {
+          "keys": "Super + SEMICOLON",
+          "desc": "Next in group",
+          "_verb": "changegroupactive",
+          "_param": "f",
+          "_mods": "Super",
+          "_mainKey": "SEMICOLON"
+        },
+        {
+          "keys": "Super + J",
+          "desc": "Prev in group",
+          "_verb": "changegroupactive",
+          "_param": "b",
+          "_mods": "Super",
+          "_mainKey": "J"
+        },
+        {
+          "keys": "Super + H",
+          "desc": "Hide focused window",
+          "_verb": "global",
+          "_param": "veil:toggle-focused",
+          "_mods": "Super",
+          "_mainKey": "H"
+        },
+        {
+          "keys": "Super + Shift + H",
+          "desc": "Restore hidden windows",
+          "_verb": "global",
+          "_param": "veil:open-restore-menu",
+          "_mods": "Super+Shift",
+          "_mainKey": "H"
+        }
+      ]
+    },
+    {
+      "title": "WORKSPACES",
+      "binds": [
+        {
+          "keys": "Super + 1-6",
+          "desc": "Workspace 1-6",
+          "_verb": "workspace",
+          "_mods": "Super",
+          "_mainKey": "1-6",
+          "_merged": true
+        },
+        {
+          "keys": "Super + Ctrl + RIGHT",
+          "desc": "Next workspace",
+          "_verb": "workspace",
+          "_param": "m+1",
+          "_mods": "Super+Ctrl",
+          "_mainKey": "RIGHT"
+        },
+        {
+          "keys": "Super + Ctrl + LEFT",
+          "desc": "Prev workspace",
+          "_verb": "workspace",
+          "_param": "m-1",
+          "_mods": "Super+Ctrl",
+          "_mainKey": "LEFT"
+        },
+        {
+          "keys": "Alt + TAB",
+          "desc": "Cycle windows (history)",
+          "_verb": "cyclenext",
+          "_param": "hist, prev",
+          "_mods": "Alt",
+          "_mainKey": "TAB"
+        },
+        {
+          "keys": "Shift + Alt + TAB",
+          "desc": "Prev workspace (alt)",
+          "_verb": "workspace",
+          "_param": "m-1",
+          "_mods": "Shift+Alt",
+          "_mainKey": "TAB"
+        },
+        {
+          "keys": "Super + TAB",
+          "desc": "Tabber: next",
+          "_verb": "global",
+          "_param": "tabber:select-next",
+          "_mods": "Super",
+          "_mainKey": "TAB"
+        },
+        {
+          "keys": "Super + Shift + TAB",
+          "desc": "Tabber: prev",
+          "_verb": "global",
+          "_param": "tabber:select-previous",
+          "_mods": "Super+Shift",
+          "_mainKey": "TAB"
+        },
+        {
+          "keys": "Super + GRAVE",
+          "desc": "Tabber: enter group",
+          "_verb": "global",
+          "_param": "tabber:enter-group",
+          "_mods": "Super",
+          "_mainKey": "GRAVE"
+        }
+      ]
+    },
+    {
+      "title": "MOVE TO WORKSPACE",
+      "binds": [
+        {
+          "keys": "Super + Shift + 1-6",
+          "desc": "Move to workspace 1-6",
+          "_verb": "movetoworkspace",
+          "_mods": "Super+Shift",
+          "_mainKey": "1-6",
+          "_merged": true
+        }
+      ]
+    },
+    {
+      "title": "SPECIAL WORKSPACE",
+      "binds": [
+        {
+          "keys": "Super + S",
+          "desc": "Toggle scratchpad",
+          "_verb": "togglespecialworkspace",
+          "_param": "magic",
+          "_mods": "Super",
+          "_mainKey": "S"
+        },
+        {
+          "keys": "Super + Shift + S",
+          "desc": "Send to scratchpad (silent)",
+          "_verb": "movetoworkspacesilent",
+          "_param": "special:magic",
+          "_mods": "Super+Shift",
+          "_mainKey": "S"
+        },
+        {
+          "keys": "Super + Shift + Ctrl + S",
+          "desc": "Send to scratchpad",
+          "_verb": "movetoworkspace",
+          "_param": "special:magic",
+          "_mods": "Super+Shift+Ctrl",
+          "_mainKey": "S"
+        }
+      ]
+    },
+    {
+      "title": "LAYOUT",
+      "binds": [
+        {
+          "keys": "Super + A",
+          "desc": "Swap split (dwindle)",
+          "_verb": "layoutmsg",
+          "_param": "swapsplit",
+          "_mods": "Super",
+          "_mainKey": "A"
+        },
+        {
+          "keys": "Super + D",
+          "desc": "Toggle split (dwindle)",
+          "_verb": "layoutmsg",
+          "_param": "togglesplit",
+          "_mods": "Super",
+          "_mainKey": "D"
+        },
+        {
+          "keys": "Super + X",
+          "desc": "Swap with master",
+          "_verb": "layoutmsg",
+          "_param": "swapwithmaster master",
+          "_mods": "Super",
+          "_mainKey": "X"
+        },
+        {
+          "keys": "Super + Shift + A",
+          "desc": "Cycle prev (master)",
+          "_verb": "layoutmsg",
+          "_param": "cycleprev",
+          "_mods": "Super+Shift",
+          "_mainKey": "A"
+        },
+        {
+          "keys": "Super + Shift + X",
+          "desc": "Focus master",
+          "_verb": "layoutmsg",
+          "_param": "focusmaster",
+          "_mods": "Super+Shift",
+          "_mainKey": "X"
+        },
+        {
+          "keys": "Super + Shift + D",
+          "desc": "Cycle next (master)",
+          "_verb": "layoutmsg",
+          "_param": "cyclenext",
+          "_mods": "Super+Shift",
+          "_mainKey": "D"
+        }
+      ]
+    },
+    {
+      "title": "MEDIA",
+      "binds": [
+        {
+          "keys": "Super + Shift + M",
+          "desc": "Toggle media",
+          "_verb": "exec",
+          "_param": "$ipc media toggle",
+          "_mods": "Super+Shift",
+          "_mainKey": "M"
+        }
+      ]
+    },
+    {
+      "title": "HARDWARE KEYS",
+      "binds": [
+        {
+          "keys": "Vol Up",
+          "desc": "Volume up",
+          "_verb": "exec",
+          "_param": "$ipc volume increase",
+          "_mods": "",
+          "_mainKey": "XF86AUDIORAISEVOLUME"
+        },
+        {
+          "keys": "Vol Down",
+          "desc": "Volume down",
+          "_verb": "exec",
+          "_param": "$ipc volume decrease",
+          "_mods": "",
+          "_mainKey": "XF86AUDIOLOWERVOLUME"
+        },
+        {
+          "keys": "Mute",
+          "desc": "Mute output",
+          "_verb": "exec",
+          "_param": "$ipc volume muteOutput",
+          "_mods": "",
+          "_mainKey": "XF86AUDIOMUTE"
+        },
+        {
+          "keys": "Mic Mute",
+          "desc": "Mute mic",
+          "_verb": "exec",
+          "_param": "$ipc volume muteInput",
+          "_mods": "",
+          "_mainKey": "XF86AUDIOMICMUTE"
+        },
+        {
+          "keys": "XF86AUDIOPLAYPAUSE",
+          "desc": "Play/pause",
+          "_verb": "exec",
+          "_param": "$ipc media playPause",
+          "_mods": "",
+          "_mainKey": "XF86AUDIOPLAYPAUSE"
+        },
+        {
+          "keys": "Play",
+          "desc": "Play",
+          "_verb": "exec",
+          "_param": "$ipc media play",
+          "_mods": "",
+          "_mainKey": "XF86AUDIOPLAY"
+        },
+        {
+          "keys": "Pause",
+          "desc": "Pause",
+          "_verb": "exec",
+          "_param": "$ipc media pause",
+          "_mods": "",
+          "_mainKey": "XF86AUDIOPAUSE"
+        },
+        {
+          "keys": "Next",
+          "desc": "Next track",
+          "_verb": "exec",
+          "_param": "$ipc media next",
+          "_mods": "",
+          "_mainKey": "XF86AUDIONEXT"
+        },
+        {
+          "keys": "Prev",
+          "desc": "Prev track",
+          "_verb": "exec",
+          "_param": "playerctl previous",
+          "_mods": "",
+          "_mainKey": "XF86AUDIOPREV"
+        },
+        {
+          "keys": "PAUSE",
+          "desc": "Pause (Pause key)",
+          "_verb": "exec",
+          "_param": "$ipc media pause",
+          "_mods": "",
+          "_mainKey": "PAUSE"
+        },
+        {
+          "keys": "Calc",
+          "desc": "Calculator",
+          "_verb": "exec",
+          "_param": "gnome-calculator",
+          "_mods": "",
+          "_mainKey": "XF86CALCULATOR"
+        }
+      ]
+    },
+    {
+      "title": "BRIGHTNESS",
+      "binds": [
+        {
+          "keys": "Bright Up",
+          "desc": "Brightness up",
+          "_verb": "exec",
+          "_param": "$ipc brightness increase",
+          "_mods": "",
+          "_mainKey": "XF86MONBRIGHTNESSUP"
+        },
+        {
+          "keys": "Bright Down",
+          "desc": "Brightness down",
+          "_verb": "exec",
+          "_param": "$ipc brightness decrease",
+          "_mods": "",
+          "_mainKey": "XF86MONBRIGHTNESSDOWN"
+        },
+        {
+          "keys": "PgUp",
+          "desc": "Brightness up (PgUp)",
+          "_verb": "exec",
+          "_param": "$ipc brightness increase",
+          "_mods": "",
+          "_mainKey": "PRIOR"
+        },
+        {
+          "keys": "PgDn",
+          "desc": "Brightness down (PgDn)",
+          "_verb": "exec",
+          "_param": "$ipc brightness decrease",
+          "_mods": "",
+          "_mainKey": "NEXT"
+        }
+      ]
+    },
+    {
+      "title": "SCREENSHOTS & RECORDING",
+      "binds": [
+        {
+          "keys": "PrtSc",
+          "desc": "Screenshot (full)",
+          "_verb": "exec",
+          "_param": "$HYPR_SCRIPTS/screenshot",
+          "_mods": "",
+          "_mainKey": "PRINT"
+        },
+        {
+          "keys": "Shift + PrtSc",
+          "desc": "Screenshot (region)",
+          "_verb": "exec",
+          "_param": "$HYPR_SCRIPTS/screenshot --select",
+          "_mods": "Shift",
+          "_mainKey": "PRINT"
+        },
+        {
+          "keys": "Ctrl + PrtSc",
+          "desc": "Record screen",
+          "_verb": "exec",
+          "_param": "$HYPR_SCRIPTS/toggle_recording",
+          "_mods": "Ctrl",
+          "_mainKey": "PRINT"
+        },
+        {
+          "keys": "Shift + Ctrl + PrtSc",
+          "desc": "Record region",
+          "_verb": "exec",
+          "_param": "$HYPR_SCRIPTS/toggle_recording --select",
+          "_mods": "Shift+Ctrl",
+          "_mainKey": "PRINT"
+        }
+      ]
+    },
+    {
+      "title": "MOUSE",
+      "binds": [
+        {
+          "keys": "Super + Left Click",
+          "desc": "Move window",
+          "_verb": "movewindow",
+          "_param": "",
+          "_mods": "Super",
+          "_mainKey": "MOUSE:272"
+        },
+        {
+          "keys": "Super + Right Click",
+          "desc": "Resize window",
+          "_verb": "resizewindow",
+          "_param": "",
+          "_mods": "Super",
+          "_mainKey": "MOUSE:273"
+        }
+      ]
+    }
+  ],
+  "detectedCompositor": "hyprland",
+  "windowWidth": 1500,
+  "windowHeight": 850,
+  "autoHeight": false,
+  "columnCount": 3,
+  "modKeyVariable": "$mainMod",
+  "hyprlandConfigPath": "~/.config/hypr/configs/binds.conf",
+  "hyprlandLuaConfigPath": "~/.config/hypr/hyprland.lua",
+  "hyprlandParserMode": "auto",
+  "niriConfigPath": "~/.config/niri/config.kdl",
+  "mangoConfigPath": "~/.config/mango/config.conf",
+  "mergeSequentialBinds": true,
+  "showUndescribedBinds": true,
+  "splitLargeWorkspaceCategory": true,
+  "workspaceSplitThreshold": 12,
+  "keyColorAlt": "#FF6B6B",
+  "keyColorXF86": "#4ECDC4",
+  "keyColorPrint": "#95E1D3",
+  "keyColorNumeric": "#A8DADC",
+  "keyColorMouse": "#F38181",
+  "keyColorSuper": "#ffffff",
+  "keyColorCtrl": "",
+  "keyColorShift": "#40e2e2",
+  "keyColorDefault": "#6C757D",
+  "keyLabelColor": "#FFFFFF",
+  "keyTextSuper": "#131313",
+  "keyTextCtrl": "#131313",
+  "keyTextShift": "#131313",
+  "keyTextAlt": "#131313",
+  "keyTextXF86": "#131313",
+  "keyTextPrint": "#131313",
+  "keyTextNumeric": "#131313",
+  "keyTextMouse": "#131313",
+  "keyTextDefault": "#131313",
+  "descriptionTextColor": "#ffffff",
+  "bindOverrides": {}
+}

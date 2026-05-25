@@ -1,0 +1,94 @@
+# ─────────────────────────────
+# FONTS
+# ─────────────────────────────
+font-family = JetBrains Mono NerdFont
+font-style = Regular
+font-size = 14
+
+# ─────────────────────────────
+# THEME & BACKGROUND
+# ─────────────────────────────
+#config-file = colors/carbonfox.conf
+#theme = "tokyonight"
+window-theme = ghostty
+background-opacity = 0.9
+background-blur = true
+
+# ─────────────────────────────
+# SHELL & TERMINAL
+# ─────────────────────────────
+command = /bin/fish
+# command = source ~/.zshrc
+shell-integration = fish
+term = xterm-ghostty
+
+# ─────────────────────────────
+# WINDOW
+# ─────────────────────────────
+title = "G H O S T T Y"
+window-decoration = false
+window-padding-x = 14
+window-padding-y = 14
+window-padding-balance = true 
+window-padding-color = background 
+window-save-state = always
+window-inherit-working-directory = true
+window-inherit-font-size = true
+resize-overlay = never
+gtk-toolbar-style = flat
+
+# ─────────────────────────────
+# UI & APP BEHAVIOR
+# ─────────────────────────────
+confirm-close-surface = false
+quit-after-last-window-closed = true
+auto-update = check
+auto-update-channel = stable
+desktop-notifications = true
+progress-style = true
+
+# ─────────────────────────────
+# CURSOR
+# ─────────────────────────────
+cursor-style = block
+cursor-style-blink = false
+# cursor-opacity = 1
+
+# ─────────────────────────────
+# SHADERS
+# ─────────────────────────────
+custom-shader = shaders/cursor_tail.glsl
+# custom-shader = shaders/cursor_sweep.glsl
+# custom-shader = shaders/cursor_warp.glsl
+# custom-shader = shaders/rectangle_boom_cursor.glsl
+# custom-shader = shaders/ripple_cursor.glsl
+# custom-shader = shaders/ripple_rectangle_cursor.glsl
+# custom-shader = shaders/sonic_boom_cursor.glsl
+
+# ─────────────────────────────
+# MOUSE
+# ─────────────────────────────
+mouse-hide-while-typing = true
+mouse-scroll-multiplier = 2
+
+# ─────────────────────────────
+# CLIPBOARD
+# ─────────────────────────────
+copy-on-select = clipboard
+clipboard-trim-trailing-spaces = true
+clipboard-read = allow
+clipboard-write = allow
+clipboard-paste-protection = true
+clipboard-paste-bracketed-safe = true
+
+# ─────────────────────────────
+# PERFORMANCE
+# ─────────────────────────────
+scrollback-limit = 100000
+image-storage-limit = 320000000
+
+# ─────────────────────────────
+# KEYBINDS
+# ─────────────────────────────
+keybind = ctrl+r=reload_config
+theme = noctalia
