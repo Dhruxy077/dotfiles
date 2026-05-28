@@ -12,16 +12,20 @@ return {
 				----------------------------------------------------------------
 				-- 🚫 Startup behavior
 				----------------------------------------------------------------
-				open_on_setup = false,
-				open_on_setup_file = false,
-				open_on_tab = false,
-
 				close_if_last_window = true,
-				popup_border_style = "rounded",
 				sort_case_insensitive = true,
 
 				enable_git_status = true,
 				enable_diagnostics = true,
+
+				ui = {
+					confirm = {
+						delete = true,
+						rename = true,
+					},
+				},
+
+				popup_border_style = "rounded",
 
 				----------------------------------------------------------------
 				-- 🎨 Component styles
@@ -31,7 +35,7 @@ return {
 						enable_character_fade = false,
 					},
 
-					-- 🌿 PERFECTLY ALIGNED indentation
+					-- 🌿 Indentation
 					indent = {
 						indent_size = 2,
 						padding = 0,
@@ -74,7 +78,7 @@ return {
 							ignored = "",
 							unstaged = "!",
 							staged = "*",
-							conflict = "!",
+							conflict = "C", -- ← changed from "!" to avoid duplicate with unstaged
 						},
 					},
 				},
@@ -91,8 +95,8 @@ return {
 						["h"] = "close_node",
 						["<esc>"] = "cancel",
 						["P"] = { "toggle_preview", config = { use_float = true } },
-						["s"] = "open_split",
-						["v"] = "open_vsplit",
+						["s"] = "split_with_window_picker", -- ← uses nvim-window-picker
+						["v"] = "vsplit_with_window_picker", -- ← uses nvim-window-picker
 						["t"] = "open_tabnew",
 						["a"] = "add",
 						["A"] = "add_directory",
@@ -108,7 +112,7 @@ return {
 				},
 
 				----------------------------------------------------------------
-				-- 📁 Filesystem (MERGED)
+				-- 📁 Filesystem
 				----------------------------------------------------------------
 				filesystem = {
 					follow_current_file = {
@@ -120,7 +124,7 @@ return {
 					use_libuv_file_watcher = true,
 
 					filtered_items = {
-						visible = false, -- Set to true to show hidden files by default
+						visible = false,
 						hide_dotfiles = false,
 						hide_gitignored = false,
 					},
@@ -156,8 +160,7 @@ return {
 
 			-- Keymaps
 			vim.keymap.set("n", "<leader>e", ":Neotree float toggle<CR>", { desc = "Neotree float" })
-			-- vim.keymap.set("n", "<leader>E", ":Neotree focus toggle<CR>", { desc = "Neotree toggle" })
-
+			vim.keymap.set("n", "<leader>E", ":Neotree left toggle<CR>", { desc = "Neotree toggle" })
 			vim.keymap.set("n", "<leader>ge", function()
 				require("neo-tree.command").execute({ source = "git_status", toggle = true })
 			end, { desc = "Git Explorer" })
@@ -173,7 +176,7 @@ return {
 			"nvim-lua/plenary.nvim",
 			"nvim-neo-tree/neo-tree.nvim",
 		},
-		config = true, -- Let Lazy call require("lsp-file-operations").setup() automatically
+		config = true,
 	},
 	{
 		"s1n7ax/nvim-window-picker",
