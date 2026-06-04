@@ -25,19 +25,19 @@ DIM='\033[2m'
 RESET='\033[0m'
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
-info()    { echo -e "${BLUE}${BOLD}  ::${RESET}  $*"; }
+info() { echo -e "${BLUE}${BOLD}  ::${RESET}  $*"; }
 success() { echo -e "${GREEN}${BOLD}  ✓ ${RESET}  $*"; }
-warn()    { echo -e "${YELLOW}${BOLD}  ⚠ ${RESET}  $*"; }
-error()   { echo -e "${RED}${BOLD}  ✗ ${RESET}  $*" >&2; }
-step()    { echo -e "\n${MAGENTA}${BOLD}━━━ $* ━━━${RESET}"; }
-dim()     { echo -e "${DIM}      $*${RESET}"; }
+warn() { echo -e "${YELLOW}${BOLD}  ⚠ ${RESET}  $*"; }
+error() { echo -e "${RED}${BOLD}  ✗ ${RESET}  $*" >&2; }
+step() { echo -e "\n${MAGENTA}${BOLD}━━━ $* ━━━${RESET}"; }
+dim() { echo -e "${DIM}      $*${RESET}"; }
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # ─── Banner ───────────────────────────────────────────────────────────────────
 print_banner() {
   echo -e "${CYAN}${BOLD}"
-  cat << 'EOF'
+  cat <<'EOF'
   ╔══════════════════════════════════════════════════════╗
   ║       Hyprland · Noctalia Dotfiles Installer         ║
   ║                                                      ║
@@ -106,10 +106,10 @@ install_arch_packages() {
 
   # ── Core Hyprland stack ────────────────────────────────────────────────────
   local CORE_PKGS=(
-    hyprland           # The compositor itself
-    hyprlock           # Lock screen (hyprland-native)
-    hypridle           # Idle daemon
-    hyprpicker         # AUR: color picker
+    hyprland   # The compositor itself
+    hyprlock   # Lock screen (hyprland-native)
+    hypridle   # Idle daemon
+    hyprpicker # AUR: color picker
     xdg-desktop-portal-hyprland
     xdg-desktop-portal-gtk
     qt5-wayland
@@ -118,8 +118,8 @@ install_arch_packages() {
 
   # ── Shell / Noctalia Shell ─────────────────────────────────────────────────
   local SHELL_PKGS=(
-    quickshell         # QML shell used by noctalia-shell (qs)
-    swww               # Wayland wallpaper daemon
+    quickshell # QML shell used by noctalia-shell (qs)
+    swww       # Wayland wallpaper daemon
   )
 
   # ── Terminals ─────────────────────────────────────────────────────────────
@@ -135,56 +135,57 @@ install_arch_packages() {
     ttf-nerd-fonts-symbols
     noto-fonts
     noto-fonts-emoji
-    bibata-cursor-theme   # AUR: Bibata-Modern-Ice cursor
+    bibata-cursor-theme # AUR: Bibata-Modern-Ice cursor
   )
 
   # ── Wayland utilities ─────────────────────────────────────────────────────
   local WAYLAND_PKGS=(
     wl-clipboard
-    cliphist              # Clipboard history manager
-    wl-clip-persist       # AUR: keeps clipboard alive after app close
-    brightnessctl         # Screen / keyboard backlight
-    playerctl             # MPRIS media control
-    pamixer               # PulseAudio/Pipewire volume CLI
+    cliphist        # Clipboard history manager
+    wl-clip-persist # AUR: keeps clipboard alive after app close
+    brightnessctl   # Screen / keyboard backlight
+    playerctl       # MPRIS media control
+    pamixer         # PulseAudio/Pipewire volume CLI
     pipewire
     pipewire-alsa
     pipewire-pulse
     wireplumber
-    grim                  # Screenshot backend (Wayland)
-    slurp                 # Region selector (used by hyprshot)
-    hyprshot              # AUR: Hyprland screenshot wrapper (SUPER+Print)
+    grim     # Screenshot backend (Wayland)
+    slurp    # Region selector (used by hyprshot)
+    hyprshot # AUR: Hyprland screenshot wrapper (SUPER+Print)
   )
 
   # ── Authentication / Polkit ────────────────────────────────────────────────
   local AUTH_PKGS=(
-    xfce-polkit           # Polkit authentication agent
+    xfce-polkit # Polkit authentication agent
     gnome-keyring
-    seahorse              # GUI keyring manager (org.gnome.seahorse.Application)
+    seahorse # GUI keyring manager (org.gnome.seahorse.Application)
   )
 
   # ── File manager & GUI tools ───────────────────────────────────────────────
   local GUI_PKGS=(
     thunar
     thunar-archive-plugin
-    tumbler               # Thumbnail generation
-    gvfs                  # Virtual filesystem
-    file-roller           # Archive manager (engrampa alternative)
-    nwg-look              # GTK theme switcher
-    kvantum               # Qt theme engine
-    qt6ct                 # Qt6 color / theme config
-    blueman               # Bluetooth manager
+    tumbler     # Thumbnail generation
+    gvfs        # Virtual filesystem
+    file-roller # Archive manager (engrampa alternative)
+    nwg-look    # GTK theme switcher
+    kvantum     # Qt theme engine
+    qt6ct       # Qt6 color / theme config
+    blueman     # Bluetooth manager
     network-manager-applet
     nm-connection-editor
-    pavucontrol           # PulseAudio/Pipewire volume GUI
+    pavucontrol  # PulseAudio/Pipewire volume GUI
+    nwg-displays # graphical output management utility for Wayland compositors
   )
 
   # ── Dev & CLI tools ────────────────────────────────────────────────────────
   local CLI_PKGS=(
     neovim
-    fish                  # Fish shell
-    starship              # Cross-shell prompt
-    fastfetch             # System info
-    btop                  # Resource monitor
+    fish      # Fish shell
+    starship  # Cross-shell prompt
+    fastfetch # System info
+    btop      # Resource monitor
     git
     curl
     wget
@@ -192,8 +193,8 @@ install_arch_packages() {
     fd
     fzf
     jq
-    ananicy-cpp           # Process priority daemon (referenced in environ.conf)
-    python-terminaltexteffects  # AUR: 'tte' — required by the screensaver
+    ananicy-cpp                # Process priority daemon (referenced in environ.conf)
+    python-terminaltexteffects # AUR: 'tte' — required by the screensaver
   )
 
   # ── Media ─────────────────────────────────────────────────────────────────
@@ -287,7 +288,8 @@ install_debian_packages() {
 
 _install_yay() {
   info "Cloning and building yay…"
-  local tmp; tmp="$(mktemp -d)"
+  local tmp
+  tmp="$(mktemp -d)"
   git clone --depth 1 https://aur.archlinux.org/yay.git "$tmp/yay"
   (cd "$tmp/yay" && makepkg -si --noconfirm)
   rm -rf "$tmp"
@@ -396,7 +398,8 @@ copy_wallpapers() {
     return
   fi
 
-  local total; total=$(find "$WALL_SRC" -maxdepth 1 -type f | wc -l)
+  local total
+  total=$(find "$WALL_SRC" -maxdepth 1 -type f | wc -l)
   info "Found ${BOLD}${total}${RESET} wallpapers to install…"
 
   mkdir -p "$WALL_DST"
@@ -428,8 +431,8 @@ _set_initial_wallpaper() {
   mapfile -t images < <(
     find "$wall_dir" -maxdepth 1 -type f \
       \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' \
-         -o -iname '*.webp' -o -iname '*.gif' \) \
-      | shuf
+      -o -iname '*.webp' -o -iname '*.gif' \) |
+      shuf
   )
 
   if [[ ${#images[@]} -eq 0 ]]; then
@@ -459,8 +462,8 @@ _set_initial_wallpaper() {
       --transition-type grow \
       --transition-pos center \
       --transition-duration 1 \
-      2>/dev/null && success "Wallpaper set: $(basename "$chosen")" \
-                  || warn "swww img failed — wallpaper will be set on next login"
+      2>/dev/null && success "Wallpaper set: $(basename "$chosen")" ||
+      warn "swww img failed — wallpaper will be set on next login"
   else
     dim "  swww-daemon not running — wallpaper will be set on next Hyprland launch"
   fi
@@ -472,9 +475,10 @@ post_install() {
 
   # ── Fish as default shell ──────────────────────────────────────────────────
   if command -v fish &>/dev/null; then
-    local fish_path; fish_path="$(command -v fish)"
+    local fish_path
+    fish_path="$(command -v fish)"
     if ! grep -qxF "$fish_path" /etc/shells 2>/dev/null; then
-      echo "$fish_path" | sudo tee -a /etc/shells > /dev/null
+      echo "$fish_path" | sudo tee -a /etc/shells >/dev/null
     fi
     if [[ "$SHELL" != "$fish_path" ]]; then
       read -rp "$(echo -e "${YELLOW}${BOLD}  ?${RESET}  Set fish as your default shell? [y/N] ")" _fish
@@ -493,7 +497,7 @@ post_install() {
     local USER_SERVICES=(pipewire pipewire-pulse wireplumber)
     for svc in "${USER_SERVICES[@]}"; do
       if systemctl --user list-unit-files "$svc.service" &>/dev/null; then
-        systemctl --user enable --now "$svc.service" 2>/dev/null && \
+        systemctl --user enable --now "$svc.service" 2>/dev/null &&
           success "systemd user: $svc" || dim "  $svc not found, skipping"
       else
         dim "  $svc.service not found, skipping"
@@ -502,7 +506,7 @@ post_install() {
 
     # ananicy-cpp for process priority (referenced in environ.conf)
     if systemctl list-unit-files ananicy-cpp.service &>/dev/null; then
-      sudo systemctl enable --now ananicy-cpp.service 2>/dev/null && \
+      sudo systemctl enable --now ananicy-cpp.service 2>/dev/null &&
         success "ananicy-cpp enabled" || dim "  ananicy-cpp not found"
     fi
   fi
@@ -511,7 +515,7 @@ post_install() {
   local fish_conf="$HOME/.config/fish/config.fish"
   if command -v fish &>/dev/null && [[ -f "$fish_conf" ]]; then
     if ! grep -q "\.local/bin" "$fish_conf" 2>/dev/null; then
-      echo 'fish_add_path $HOME/.local/bin' >> "$fish_conf"
+      echo 'fish_add_path $HOME/.local/bin' >>"$fish_conf"
       success "Added ~/.local/bin to fish PATH"
     fi
   fi
@@ -519,7 +523,7 @@ post_install() {
   # For bash/zsh fallback
   for rc in "$HOME/.bashrc" "$HOME/.bash_profile" "$HOME/.zshrc"; do
     if [[ -f "$rc" ]] && ! grep -q "\.local/bin" "$rc" 2>/dev/null; then
-      echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$rc"
+      echo 'export PATH="$HOME/.local/bin:$PATH"' >>"$rc"
       success "Added ~/.local/bin to PATH in ${rc##*/}"
     fi
   done
@@ -563,18 +567,18 @@ verify_installation() {
     hyprland
     hypridle
     swww
-    qs              # quickshell (noctalia-shell)
+    qs # quickshell (noctalia-shell)
     ghostty
     brightnessctl
     cliphist
-    wl-paste        # wl-clipboard
+    wl-paste # wl-clipboard
     playerctl
     fish
     starship
     fastfetch
     nvim
     thunar
-    tte             # terminal-text-effects — required by screensaver
+    tte # terminal-text-effects — required by screensaver
   )
 
   local OPTIONAL_BINS=(
@@ -673,44 +677,51 @@ main() {
   local MODE="all"
 
   case "${1:-}" in
-    --all)              MODE="all" ;;
-    --configs-only)     MODE="configs" ;;
-    --pkgs-only)        MODE="pkgs" ;;
-    --wallpapers-only)  MODE="wallpapers" ;;
-    --verify)           MODE="verify" ;;
-    -h|--help)          usage; exit 0 ;;
-    "")                 MODE="all" ;;
-    *)                  error "Unknown option: $1"; usage; exit 1 ;;
+  --all) MODE="all" ;;
+  --configs-only) MODE="configs" ;;
+  --pkgs-only) MODE="pkgs" ;;
+  --wallpapers-only) MODE="wallpapers" ;;
+  --verify) MODE="verify" ;;
+  -h | --help)
+    usage
+    exit 0
+    ;;
+  "") MODE="all" ;;
+  *)
+    error "Unknown option: $1"
+    usage
+    exit 1
+    ;;
   esac
 
   detect_distro
 
   case "$MODE" in
-    all)
-      install_packages
-      copy_configs
-      copy_local_scripts
-      copy_wallpapers
-      post_install
-      verify_installation || true
-      print_summary
-      ;;
-    configs)
-      copy_configs
-      copy_local_scripts
-      copy_wallpapers
-      post_install
-      print_summary
-      ;;
-    pkgs)
-      install_packages
-      ;;
-    wallpapers)
-      copy_wallpapers
-      ;;
-    verify)
-      verify_installation
-      ;;
+  all)
+    install_packages
+    copy_configs
+    copy_local_scripts
+    copy_wallpapers
+    post_install
+    verify_installation || true
+    print_summary
+    ;;
+  configs)
+    copy_configs
+    copy_local_scripts
+    copy_wallpapers
+    post_install
+    print_summary
+    ;;
+  pkgs)
+    install_packages
+    ;;
+  wallpapers)
+    copy_wallpapers
+    ;;
+  verify)
+    verify_installation
+    ;;
   esac
 }
 
