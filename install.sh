@@ -72,6 +72,80 @@ detect_distro() {
   info "Detected distro: ${BOLD}${DISTRO_ID}${RESET}  (pkg manager: ${PKG_MANAGER})"
 }
 
+# ─── GPU / Display Driver Detection ──────────────────────────────────────────
+detect_and_install_gpu() {
+  info "Detecting GPU hardware…"
+
+  local lspci_output
+  lspci_output="$(lspci 2>/dev/null || true)"
+
+  HAS_NVIDIA=false
+  HAS_AMD=false
+  HAS_INTEL=false
+
+  if echo "$lspci_output" | grep -qi "VGA.*NVIDIA\|3D.*NVIDIA\|Display.*NVIDIA"; then
+    HAS_NVIDIA=true
+    info "NVIDIA GPU detected"
+  fi
+  if echo "$lspci_output" | grep -qi "VGA.*AMD\|VGA.*ATI\|Display.*AMD\|3D.*AMD"; then
+    HAS_AMD=true
+    info "AMD GPU detected"
+  fi
+  if echo "$lspci_output" | grep -qi "VGA.*Intel\|Display.*Intel\|3D.*Intel"; then
+    HAS_INTEL=true
+    info "Intel GPU detected"
+  fi
+
+  # NVIDIA packages
+  if $HAS_NVIDIA; then
+    GPU_PKGS+=(
+      nvidia-dkms          # NVIDIA kernel module (DKMS)
+      nvidia-utils         # NVIDIA userspace utils
+      lib32-nvidia-utils   # 32-bit NVIDIA libs (wine/steam)
+      nvidia-settings      # NVIDIA control panel
+      vulkan-icd-loader    # Vulkan ICD loader
+      lib32-vulkan-icd-loader
+    )
+    # Also install mesa for NVIDIA GBM backend
+    GPU_PKGS+=(mesa lib32-mesa)
+  fi
+
+  # AMD packages
+  if $HAS_AMD; then
+    GPU_PKGS+=(
+      mesa                 # Open-source GPU drivers
+      lib32-mesa           # 32-bit mesa
+      vulkan-radeon        # AMD Vulkan driver
+      lib32-vulkan-radeon  # 32-bit AMD Vulkan
+      libva-mesa-driver    # VA-API hardware video decode
+      lib32-libva-mesa-driver
+      mesa-vdpau           # VDPAU video acceleration
+      lib32-mesa-vdpau
+    )
+  fi
+
+  # Intel packages
+  if $HAS_INTEL; then
+    GPU_PKGS+=(
+      mesa                 # Open-source GPU drivers
+      lib32-mesa           # 32-bit mesa
+      vulkan-intel         # Intel Vulkan driver
+      lib32-vulkan-intel   # 32-bit Intel Vulkan
+      intel-media-driver   # VA-API for newer Intel GPUs (iHD)
+      libva-intel-driver   # VA-API for older Intel GPUs (i965)
+      intel-gpu-tools      # Intel GPU debugging tools
+    )
+  fi
+
+  # If no GPU detected, install mesa as fallback
+  if ! $HAS_NVIDIA && ! $HAS_AMD && ! $HAS_INTEL; then
+    warn "No GPU detected via lspci — installing generic mesa drivers"
+    GPU_PKGS+=(mesa lib32-mesa vulkan-icd-loader lib32-vulkan-icd-loader)
+  fi
+
+  info "GPU packages to install: ${GPU_PKGS[*]}"
+}
+
 # ─── Package Installation ─────────────────────────────────────────────────────
 install_packages() {
   if [[ "$PKG_MANAGER" == "pacman" ]]; then
@@ -115,6 +189,10 @@ install_arch_packages() {
     qt5-wayland
     qt6-wayland
   )
+
+  # ── Display drivers (auto-detected) ───────────────────────────────────────
+  local GPU_PKGS=()
+  detect_and_install_gpu
 
   # ── Shell / Noctalia Shell ─────────────────────────────────────────────────
   local SHELL_PKGS=(
@@ -193,6 +271,9 @@ install_arch_packages() {
     fd
     fzf
     jq
+    eza       # Modern 'ls' replacement (used in fish config)
+    bat       # Modern 'cat' replacement (used in fish config)
+    zoxide    # Smart 'cd' replacement (used in fish config)
     ananicy-cpp                # Process priority daemon (referenced in environ.conf)
     python-terminaltexteffects # AUR: 'tte' — required by the screensaver
   )
@@ -202,6 +283,7 @@ install_arch_packages() {
     spotify-launcher
     vlc
     mpv
+    cava         # Audio visualizer (used by noctalia templates)
   )
 
   # ── Optional / gaming ─────────────────────────────────────────────────────
@@ -213,6 +295,7 @@ install_arch_packages() {
 
   local ALL_PKGS=(
     "${CORE_PKGS[@]}"
+    "${GPU_PKGS[@]}"
     "${SHELL_PKGS[@]}"
     "${TERMINAL_PKGS[@]}"
     "${FONT_PKGS[@]}"
@@ -512,6 +595,8 @@ post_install() {
   fi
 
   # ── Ensure PATH includes ~/.local/bin ─────────────────────────────────────
+  mkdir -p "$HOME/.local/bin"
+
   local fish_conf="$HOME/.config/fish/config.fish"
   if command -v fish &>/dev/null && [[ -f "$fish_conf" ]]; then
     if ! grep -q "\.local/bin" "$fish_conf" 2>/dev/null; then
@@ -587,6 +672,10 @@ verify_installation() {
     wl-clip-persist
     pamixer
     btop
+    eza
+    bat
+    zoxide
+    cava
     spotify-launcher
     zen-browser
   )
@@ -619,6 +708,31 @@ verify_installation() {
     error "Missing required components: ${missing_required[*]}"
     warn "Some features won't work until these are installed."
     return 1
+  fi
+}
+
+# ─── Launch Noctalia ──────────────────────────────────────────────────────────
+launch_noctalia() {
+  step "Launching Noctalia Shell"
+
+  if ! command -v qs &>/dev/null; then
+    warn "quickshell (qs) not found — cannot launch noctalia"
+    warn "Install quickshell and run: qs -c noctalia-shell"
+    return 1
+  fi
+
+  # Kill any existing noctalia instance
+  pkill -f "qs -c noctalia-shell" 2>/dev/null || true
+  sleep 0.5
+
+  # Start noctalia in the background
+  nohup qs -c noctalia-shell &>/dev/null &
+  sleep 1
+
+  if pgrep -f "qs -c noctalia-shell" &>/dev/null; then
+    success "Noctalia shell launched"
+  else
+    warn "Noctalia may have failed to start — try running manually: qs -c noctalia-shell"
   fi
 }
 
@@ -665,6 +779,7 @@ usage() {
   echo -e "  ${BOLD}--configs-only${RESET}     Only copy config files (skip package install)"
   echo -e "  ${BOLD}--pkgs-only${RESET}        Only install packages (skip file copy)"
   echo -e "  ${BOLD}--wallpapers-only${RESET}  Only install wallpapers to ~/media/pictures/wallpapers/"
+  echo -e "  ${BOLD}--launch-noctalia${RESET}  Launch noctalia shell after install"
   echo -e "  ${BOLD}--verify${RESET}           Check that all required binaries are present"
   echo -e "  ${BOLD}-h, --help${RESET}         Show this help"
   echo
@@ -675,24 +790,25 @@ main() {
   print_banner
 
   local MODE="all"
+  local LAUNCH_NOCTALIA=false
 
-  case "${1:-}" in
-  --all) MODE="all" ;;
-  --configs-only) MODE="configs" ;;
-  --pkgs-only) MODE="pkgs" ;;
-  --wallpapers-only) MODE="wallpapers" ;;
-  --verify) MODE="verify" ;;
-  -h | --help)
-    usage
-    exit 0
-    ;;
-  "") MODE="all" ;;
-  *)
-    error "Unknown option: $1"
-    usage
-    exit 1
-    ;;
-  esac
+  # Parse all arguments (supports combining flags)
+  for arg in "$@"; do
+    case "$arg" in
+      --all) MODE="all" ;;
+      --configs-only) MODE="configs" ;;
+      --pkgs-only) MODE="pkgs" ;;
+      --wallpapers-only) MODE="wallpapers" ;;
+      --launch-noctalia) LAUNCH_NOCTALIA=true ;;
+      --verify) MODE="verify" ;;
+      -h | --help) usage; exit 0 ;;
+      *)
+        error "Unknown option: $arg"
+        usage
+        exit 1
+        ;;
+    esac
+  done
 
   detect_distro
 
@@ -704,6 +820,9 @@ main() {
     copy_wallpapers
     post_install
     verify_installation || true
+    if $LAUNCH_NOCTALIA; then
+      launch_noctalia
+    fi
     print_summary
     ;;
   configs)
@@ -711,6 +830,9 @@ main() {
     copy_local_scripts
     copy_wallpapers
     post_install
+    if $LAUNCH_NOCTALIA; then
+      launch_noctalia
+    fi
     print_summary
     ;;
   pkgs)

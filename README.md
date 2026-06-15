@@ -370,6 +370,7 @@ The install script will:
 ./install.sh --configs-only     # Only copy configs & scripts
 ./install.sh --pkgs-only        # Only install packages
 ./install.sh --wallpapers-only  # Only install wallpapers
+./install.sh --launch-noctalia  # Launch noctalia shell after install
 ./install.sh --verify           # Check all required binaries are installed
 ```
 
@@ -401,6 +402,11 @@ chmod +x ~/.local/bin/**
 ### Core
 - `hyprland` — Window manager
 - `wayland` `xorg-xwayland` — Display protocols
+
+### Display Drivers (auto-detected)
+- **Intel**: `mesa`, `vulkan-intel`, `intel-media-driver`, `libva-intel-driver`
+- **NVIDIA**: `nvidia-dkms`, `nvidia-utils`, `nvidia-settings`
+- **AMD**: `mesa`, `vulkan-radeon`, `libva-mesa-driver`, `mesa-vdpau`
 
 ### Shell / Bar
 - `quickshell` (`qs`) with the **Noctalia** shell config
@@ -435,6 +441,10 @@ chmod +x ~/.local/bin/**
 - `xfce-polkit` — Authentication agent
 - `neovim` — Editor
 - `fastfetch` — System info
+- `eza` — Modern `ls` replacement
+- `bat` — Modern `cat` replacement
+- `zoxide` — Smart `cd` replacement
+- `cava` — Audio visualizer
 
 ### Optional
 - `spotify-launcher` — Spotify music client
