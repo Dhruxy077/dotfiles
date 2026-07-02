@@ -171,15 +171,9 @@ return {
 		"nyoom-engineering/oxocarbon.nvim",
 		lazy = true,
 		priority = 1000,
-		config = function()
-			-- Moved inside the config function
-			vim.opt.background = "dark" -- set this to dark or light
-			vim.cmd.colorscheme("oxocarbon")
-
-			vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-			vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-			vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
-		end,
+		-- NOTE: No config block here — do NOT call vim.cmd.colorscheme() inside a
+		-- lazy=true plugin config, it would override your chosen theme on every load.
+		-- Transparency overrides are applied via the ColorScheme autocmd in autocmds.lua.
 	},
 	{
 		"neanias/everforest-nvim",
@@ -192,8 +186,8 @@ return {
 	{
 		"LazyVim/LazyVim",
 		opts = {
-			-- Change "kanagawa" to "tokyonight", "catppuccin", "rose-pine", etc. to change your startup theme
-			colorscheme = "catppuccin-nvim",
+			-- Change to "kanagawa", "tokyonight", "rose-pine", "oxocarbon", etc.
+			colorscheme = "catppuccin",
 		},
 	},
 }

@@ -107,6 +107,23 @@ vim.api.nvim_create_autocmd("VimEnter", {
 -- Remember last used colorscheme and restore it on next start
 local theme_state = vim.fn.stdpath("data") .. "/last_colorscheme.txt"
 
+-- Restore colorscheme saved from the previous session (runs once at startup)
+vim.api.nvim_create_autocmd("VimEnter", {
+	callback = function()
+		if vim.fn.filereadable(theme_state) == 1 then
+			local lines = vim.fn.readfile(theme_state)
+			local saved = lines and lines[1]
+			if saved and saved ~= "" then
+				-- defer so LazyVim finishes its own colorscheme setup first
+				vim.defer_fn(function()
+					pcall(vim.cmd, "colorscheme " .. saved)
+				end, 50)
+			end
+		end
+	end,
+	desc = "Restore last colorscheme on startup",
+})
+
 -- Save colorscheme whenever it changes (e.g. via <leader>uC)
 vim.api.nvim_create_autocmd("ColorScheme", {
 	callback = function(ev)
@@ -121,6 +138,24 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		end, 100)
 	end,
 	desc = "Persist last colorscheme and refresh treesitter",
+})
+
+-- Fix: re-trigger treesitter highlight on buffers restored by session manager.
+-- When persistence.nvim restores a session, treesitter (lazy-loaded) may not
+-- have attached to already-open buffers. This forces a reattach.
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	callback = function(ev)
+		local bufnr = ev.buf
+		if not vim.api.nvim_buf_is_valid(bufnr) then return end
+		local ft = vim.bo[bufnr].filetype
+		if ft == "" then return end
+		-- Only attempt if treesitter module is loaded
+		local ok, ts_highlight = pcall(require, "nvim-treesitter.highlight")
+		if ok and ts_highlight then
+			pcall(ts_highlight.attach, bufnr, ft)
+		end
+	end,
+	desc = "Re-attach treesitter highlights on session-restored buffers",
 })
 
 -- On dashboard/landing buffers, map `p` to global project search (home dir)
